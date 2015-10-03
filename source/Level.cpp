@@ -17,7 +17,7 @@ Level::Level(const Level& orig) {
 }
 
 Level::~Level() {
-    for(int i=0;i<this->array.size()-1;i++){
+    for(int i=0;i<this->array.size();i++){
         delete (this->array[i]);
     }
     this->array.~vector();
@@ -68,7 +68,7 @@ bool Level::Load(const char* path){
     return true;
 }
 bool Level::DrawAndHit(Player *player){
-    for(int i=0;i<(int)this->array.size()-1;i++){
+    for(int i=0;i<(int)this->array.size();i++){
         if(this->array[i]->DrawAndHit(player)){
             return true;
         }
