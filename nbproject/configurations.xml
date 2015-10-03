@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="94">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="source">
+        <in>Block.cpp</in>
+        <in>Cube.cpp</in>
+        <in>Cube.h</in>
+        <in>Floor.cpp</in>
+        <in>Floor.h</in>
+        <in>Level.cpp</in>
+        <in>Level.h</in>
+        <in>Player.cpp</in>
+        <in>Spike.cpp</in>
+        <in>Spike.h</in>
+        <in>main.cpp</in>
+        <in>variables.h</in>
+      </df>
+    </df>
+    <logicalFolder name="source"
+                   displayName="source"
+                   projectFiles="true"
+                   root="../tactic/source">
+      <logicalFolder name="gfx" displayName="gfx" projectFiles="true">
+        <itemPath>../tactic/source/gfx/forest.c</itemPath>
+        <itemPath>../tactic/source/gfx/mountain.c</itemPath>
+        <itemPath>../tactic/source/gfx/plains.c</itemPath>
+        <itemPath>../tactic/source/gfx/r_infantry.c</itemPath>
+        <itemPath>../tactic/source/gfx/road_c.c</itemPath>
+        <itemPath>../tactic/source/gfx/road_i.c</itemPath>
+      </logicalFolder>
+      <itemPath>../tactic/source/main.c</itemPath>
+      <itemPath>../tactic/source/variables.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-std=c89"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <cTool>
+            <incDir>
+              <pElem>source</pElem>
+              <pElem>../../../../../Programmes/devkitPro/devkitARM/include</pElem>
+              <pElem>../../../../../Programmes/devkitPro/libctru/include</pElem>
+            </incDir>
+          </cTool>
+          <ccTool>
+            <incDir>
+              <pElem>source</pElem>
+              <pElem>../../../../../Programmes/devkitPro/devkitARM/include</pElem>
+              <pElem>../../../../../Programmes/devkitPro/libctru/include</pElem>
+            </incDir>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="../tactic/source/gfx/forest.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="../tactic/source/gfx/mountain.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="../tactic/source/gfx/plains.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="../tactic/source/gfx/r_infantry.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="../tactic/source/gfx/road_c.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="../tactic/source/gfx/road_i.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="../tactic/source/main.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>../tactic/source</pElem>
+            <pElem>../../../../../Programmes/devkitPro/devkitARM/arm-none-eabi/include/machine</pElem>
+            <pElem>../../../../../Programmes/devkitPro/devkitARM/arm-none-eabi/include</pElem>
+            <pElem>../../../../../Programmes/devkitPro/libctru/include/3ds</pElem>
+            <pElem>../../../../../Programmes/devkitPro/libctru/include/3ds/services</pElem>
+            <pElem>../../../../../Programmes/devkitPro/libctru/include/3ds/gpu</pElem>
+            <pElem>../../../../../Programmes/devkitPro/libctru/include</pElem>
+            <pElem>../tactic/build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="../tactic/source/variables.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <folder path="source/gfx">
+        <cTool>
+          <incDir>
+            <pElem>../tactic/source/gfx</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <item path="source/Block.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Cube.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Cube.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/Floor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Floor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/Level.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Level.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/Player.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Spike.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Spike.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/variables.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
