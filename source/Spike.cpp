@@ -23,8 +23,8 @@ bool Spike::DrawAndHit(Player *player){
     sf2d_draw_texture(this->texture,this->x-player->GetX()+PLAYER_X,this->y);
 
     //Shitty hitbox 
-    if((player->GetX()+player->GetWidth()>=this->x && player->GetX()<=this->x+this->width) &&
-        player->GetY()+player->GetHeight()>=(this->y+(this->height/2))){
+    if(((player->GetX()+player->GetWidth()>=this->x && player->GetX()<=this->x+this->width)) &&
+        player->GetY()+player->GetHeight()>=(this->y+(this->height/2)) && player->GetY()<=this->y+this->width ){
         return true;
         //oldx=level[i].x;
         //oldy=this->array[i].GetY();

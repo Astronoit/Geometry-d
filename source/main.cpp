@@ -1,12 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>		/* srand, rand */
-
+#include <stdlib.h>		
 #include <3ds.h>
 #include <sf2d.h>
+
+#include "handle.h"
 #include "variables.h"
 #include "Block.h"
 #include "Player.h"
-
 #include "Level.h"
 #include "Spike.h"
 
@@ -26,6 +26,8 @@ double v_y;
 double v_y2;
 float rad;
 int floorpos;
+int posLevel=0;
+bool dirRead=false;
 void initTexture(){
     spike_texture = sf2d_create_texture_mem_RGBA8(spike_img.pixel_data, spike_img.width, spike_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     player_texture = sf2d_create_texture_mem_RGBA8(player_img.pixel_data, player_img.width, player_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
@@ -35,114 +37,86 @@ void initTexture(){
 	
 }
 
-
-void handleGame(Level* level,Player* player){
-    sf2d_start_frame(GFX_TOP, GFX_LEFT);
-    
-                    if(!player->IsJumping()){
-                        sf2d_draw_texture(player_texture,PLAYER_X,player->GetY());
-                    } else {
-                        //Gravity stuff.
-                        player->MoveUD(v_y+player->GetY());
-                        v_y += v_grav;
-                        sf2d_draw_texture_rotate(player_texture,PLAYER_X+(player->GetHeight()/2),player->GetY(),rad);
-                        if(player->GetY()>=posYplayer){
-                            player->SetJump(false);
-                            player->MoveUD(posYplayer);
-                            v_saut = -3.5;
-                            v_y = v_saut;
-                            rad=0.0f;
-                        }
-                    }
-                    player->SetOnCube(false);
-                    floorpos=TOP_WIDTH;
-                    if(level->DrawAndHit(player)){
-                        launchgame=false;
-                        gameover=true;
-                    }
-    
-    sf2d_end_frame();
-    if(!player->IsOnCube())
-        posYplayer=floorpos;
-    if(!player->IsOnCube() && !player->IsJumping() && ((int)player->GetY() < floorpos) ){
-        player->MoveUD(player->GetY()+v_y2);
-        posYplayer=floorpos;
-        v_y2 += v_grav*1.2;
-    }
-    if(player->GetY()>=TOP_WIDTH){
-        launchgame=false;
-        gameover=true;
-    }
-    }
 int main()
 {
+    float speed=2.0; 
     launchgame=false;
     quit=false;
     gameover=false;
     rad=0.0f;
-    v_grav = 0.08;
-    v_saut = -3;
+    v_grav = 0.12f;
+    v_saut = -3.5;
     v_y = v_saut;
     v_y2=0;
-           
-    
-        
+          
+    initFilesystem();
+    openSDArchive();
     sf2d_init();
 
     sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
     initTexture();
     Player *player = new Player(player_texture,PLAYER_X,PLAYER_Y,PLAYER_HG,PLAYER_WD);
     Level *level=new Level();
-    level->Load("./level-1.txt");
+    //level->Load("./level-1.txt");
     PrintConsole BottomScreen;
     consoleInit(GFX_BOTTOM, &BottomScreen);
     int held;
+    int oldHeld=0;
     int posSelect=OPT_MAX;
+    int posLevel=0,nbFile=0;
+    bool chooseLevel=false;
+    bool selectLevel=false;
     while (aptMainLoop())
     {
             hidScanInput();
             held = hidKeysHeld();
-            if (held & KEY_START) {
-                    break;
-            } else if (held & (KEY_L | KEY_R)) {
-                    if(launchgame && !player->IsJumping()){
-                    player->Jump();
-                    }   
-            } else if(held & KEY_UP){
-                if(posSelect<OPT_MAX)
-                    posSelect++;
-            } else if(held & KEY_DOWN){
-                if(posSelect>1)
-                    posSelect--;
-            } else if(held & KEY_A){
-                if(posSelect==OPT_MAX && !launchgame){
-                    launchgame=true;
-                    gameover=false;
+            if(oldHeld!=held){
+                if (held & KEY_START) {
+                        break;
+                } else if (held & (KEY_L | KEY_R)) {
+                        if(launchgame && !player->IsJumping()){
+                        player->Jump();
+                        }   
+                } else if(held & KEY_UP){
+                    if(posSelect<OPT_MAX)
+                        posSelect++;
+                    if(chooseLevel && posLevel>0){
+                        posLevel--;
+                    }
+                } else if(held & KEY_DOWN){
+                    if(posSelect>1)
+                        posSelect--;
+                    if(chooseLevel && posLevel<nbFile-1){
+                        posLevel++;
+                    }
+                } else if(held & KEY_A){
+                    if(chooseLevel){
+                        selectLevel=true;
+                    }
+                    if(posSelect==OPT_MAX && !launchgame){
+                        chooseLevel=true;
+                        launchgame=false;
+                        gameover=false;
+                    }
+                    
                 }
             }
+            oldHeld=held;
             if(launchgame){
                 handleGame(level,player);
-                player->MoveLR(player->GetX()+1);
+                speed+=((float)(player->GetX()%10))/500.0f;
+                player->MoveLR(player->GetX()+1*speed);
+            } else if(chooseLevel){
+                chooseLevel = handleLevelSelection(&posLevel,&nbFile,selectLevel,&launchgame,level);
             } else {
                 consoleSelect(&BottomScreen);
-                switch(posSelect){
-                case OPT_MAX:
-                    printf("\x1b[11;14H");
-                    printf("\x1b[32m> START\n");
-                    printf("\x1b[12;14H");
-                    printf("\x1b[32m  OPTIONS\n");
-                    printf("\x1b[13;14H");
-                    break;
-                case 1:
-                    printf("\x1b[11;14H");
-                    printf("\x1b[32m  START\n");
-                    printf("\x1b[12;14H");
-                    printf("\x1b[32m> OPTIONS\n");
-                    break;
-                }
+                handleMenu(posSelect);
             }
             if(gameover){
                 launchgame=false;
+                chooseLevel=false;
+                selectLevel=false;
+                speed=2.0;
                 sf2d_start_frame(GFX_TOP, GFX_LEFT);
                     sf2d_draw_texture(gameover_texture,0,0);
                 sf2d_end_frame();
@@ -150,7 +124,7 @@ int main()
                 player->MoveUD(PLAYER_Y);
             }
             if(player->IsJumping()){
-                rad += 0.07f;
+                rad += (0.16f);
             }
             sf2d_swapbuffers();
     }

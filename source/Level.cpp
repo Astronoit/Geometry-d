@@ -17,12 +17,17 @@ Level::Level(const Level& orig) {
 }
 
 Level::~Level() {
-    for(int i=0;i<this->array.size();i++){
-        delete (this->array[i]);
+    while (!this->array.empty()){
+        delete (this->array.back());
+        this->array.pop_back();
     }
     this->array.~vector();
 }
 bool Level::Load(const char* path){
+    while (!this->array.empty()){
+        delete (this->array.back());
+        this->array.pop_back();
+    }
     FILE * fp;
     char line[128];
     char *buf;
@@ -69,8 +74,10 @@ bool Level::Load(const char* path){
 }
 bool Level::DrawAndHit(Player *player){
     for(int i=0;i<(int)this->array.size();i++){
-        if(this->array[i]->DrawAndHit(player)){
-            return true;
+        if((this->array[i]->GetX()+this->array[i]->GetWidth() >= player->GetX()-PLAYER_X) && (this->array[i]->GetX() <= player->GetX()+(TOP_WIDTH-PLAYER_X))){
+            if(this->array[i]->DrawAndHit(player)){
+                return true;
+            }
         }
     }
     return false;

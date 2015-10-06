@@ -12,7 +12,8 @@
 #define PLAYER_Y 176
 #define PLAYER_HG 32
 #define PLAYER_WD 32
-#define TOP_WIDTH 240
+#define TOP_WIDTH 400
+#define TOP_HEIGHT 240
 struct image
 {
   unsigned int 	 width;
@@ -41,5 +42,8 @@ extern double v_y;
 extern double v_y2;
 extern float rad;
 extern int floorpos;
+
+extern int posLevel;
+extern bool dirRead;
 #endif	/* VARIABLES_H */
 

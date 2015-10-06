@@ -25,8 +25,8 @@ public:
 
     bool DrawAndHit(Player*);
     bool Load(const char*);
-
-
+    
+    
 private:
     std::vector<Block*> array;
 };

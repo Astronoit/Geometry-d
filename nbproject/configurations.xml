@@ -13,6 +13,10 @@
         <in>Player.cpp</in>
         <in>Spike.cpp</in>
         <in>Spike.h</in>
+        <in>filesystem.c</in>
+        <in>filesystem.h</in>
+        <in>handle.cpp</in>
+        <in>handle.h</in>
         <in>main.cpp</in>
         <in>variables.h</in>
       </df>
@@ -66,41 +70,29 @@
             <incDir>
               <pElem>source</pElem>
               <pElem>../../../../../Programmes/devkitPro/devkitARM/include</pElem>
-              <pElem>../../../../../Programmes/devkitPro/libctru/include</pElem>
+              <pElem>../../../../../../Programmes/devkitPro/libctru/include</pElem>
             </incDir>
           </cTool>
           <ccTool>
             <incDir>
               <pElem>source</pElem>
               <pElem>../../../../../Programmes/devkitPro/devkitARM/include</pElem>
-              <pElem>../../../../../Programmes/devkitPro/libctru/include</pElem>
+              <pElem>../../../../../../Programmes/devkitPro/libctru/include</pElem>
             </incDir>
           </ccTool>
         </makeTool>
       </makefileType>
       <item path="../tactic/source/gfx/forest.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="../tactic/source/gfx/mountain.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="../tactic/source/gfx/plains.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="../tactic/source/gfx/r_infantry.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="../tactic/source/gfx/road_c.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="../tactic/source/gfx/road_i.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="../tactic/source/main.c" ex="false" tool="0" flavor2="2">
         <cTool flags="0">
@@ -144,6 +136,14 @@
       <item path="source/Spike.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="source/Spike.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/filesystem.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="source/filesystem.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/handle.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/handle.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="source/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
