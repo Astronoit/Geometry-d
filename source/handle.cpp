@@ -1,14 +1,9 @@
 #include "handle.h"
-
 bool handleLevelSelection(int *pos,int *nbFile,bool select,bool *launchgame,Level* level){
     char* array[1024];
     int size;
-    if(!dirRead){
-        scanDirectory("/geolevel/",array,&size);
-        *nbFile=size;
-    }else{
-        dirRead=true;
-    }
+    scanDirectory("/geolevel/",array,&size);
+    *nbFile=size;
     printf("\x1b[0;0H Choose your level :\n");
     for(int i=0;i<size;i++){
         if(*pos==i){

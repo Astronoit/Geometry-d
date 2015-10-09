@@ -27,7 +27,10 @@ double v_y2;
 float rad;
 int floorpos;
 int posLevel=0;
-bool dirRead=false;
+//audio
+u8* buffer;
+u32 size;
+#define SAMPLERATE 32000
 void initTexture(){
     spike_texture = sf2d_create_texture_mem_RGBA8(spike_img.pixel_data, spike_img.width, spike_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     player_texture = sf2d_create_texture_mem_RGBA8(player_img.pixel_data, player_img.width, player_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
@@ -35,6 +38,50 @@ void initTexture(){
     cube_texture = sf2d_create_texture_mem_RGBA8(cube_img.pixel_data, cube_img.width, cube_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     gameover_texture = sf2d_create_texture_mem_RGBA8(gameover_img.pixel_data, gameover_img.width, gameover_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
 	
+}
+
+void freeTexture(){
+    sf2d_free_texture(spike_texture);
+    sf2d_free_texture(player_texture);
+    sf2d_free_texture(floor_texture);
+    sf2d_free_texture(cube_texture);
+    sf2d_free_texture(gameover_texture);
+	
+}
+
+void audio_load(const char *audio){
+
+	FILE *file = fopen(audio, "rb");
+
+	// seek to end of file
+	fseek(file, 0, SEEK_END);
+
+	// file pointer tells us the size
+	size_t size = ftell(file);
+
+	// seek back to start
+	fseek(file, 0, SEEK_SET);
+
+	//allocate a buffer
+	buffer =(u8*) linearAlloc(size);
+
+	//read contents !
+	size_t bytesRead = fread(buffer, 1, size, file);
+	//u8 test = &buffer;
+
+	//close the file because we like being nice and tidy
+	fclose(file);
+
+	csndPlaySound(8, SOUND_FORMAT_16BIT | SOUND_REPEAT, SAMPLERATE, 1, 0, buffer, buffer, size);
+	linearFree(buffer);
+}
+
+void audio_stop(void){
+	csndExecCmds(true);
+	CSND_SetPlayState(0x8, 0);
+	memset(buffer, 0, size);
+	GSPGPU_FlushDataCache(NULL, buffer, size);
+	linearFree(buffer);
 }
 
 int main()
@@ -48,16 +95,14 @@ int main()
     v_saut = -3.5;
     v_y = v_saut;
     v_y2=0;
-          
     initFilesystem();
     openSDArchive();
     sf2d_init();
-
-    sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
+    csndInit();//start Audio Lib
     initTexture();
+    sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
     Player *player = new Player(player_texture,PLAYER_X,PLAYER_Y,PLAYER_HG,PLAYER_WD);
     Level *level=new Level();
-    //level->Load("./level-1.txt");
     PrintConsole BottomScreen;
     consoleInit(GFX_BOTTOM, &BottomScreen);
     int held;
@@ -66,6 +111,8 @@ int main()
     int posLevel=0,nbFile=0;
     bool chooseLevel=false;
     bool selectLevel=false;
+    bool screenErased=false;
+    audio_load("audio/audio.bin");
     while (aptMainLoop())
     {
             hidScanInput();
@@ -94,6 +141,10 @@ int main()
                         selectLevel=true;
                     }
                     if(posSelect==OPT_MAX && !launchgame){
+                        if(!screenErased){
+                            consoleClear();
+                            screenErased=true;
+                        }
                         chooseLevel=true;
                         launchgame=false;
                         gameover=false;
@@ -105,7 +156,7 @@ int main()
             if(launchgame){
                 handleGame(level,player);
                 speed+=((float)(player->GetX()%10))/500.0f;
-                player->MoveLR(player->GetX()+1*speed);
+                player->MoveLR(player->GetX()+1*(speed/2));
             } else if(chooseLevel){
                 chooseLevel = handleLevelSelection(&posLevel,&nbFile,selectLevel,&launchgame,level);
             } else {
@@ -113,6 +164,7 @@ int main()
                 handleMenu(posSelect);
             }
             if(gameover){
+                screenErased=false;
                 launchgame=false;
                 chooseLevel=false;
                 selectLevel=false;
@@ -128,9 +180,12 @@ int main()
             }
             sf2d_swapbuffers();
     }
-
-    
+    level->~Level();
+    player->~Player();
+    audio_stop();
+    audio_stop();
+    csndExit();
+    freeTexture();
     sf2d_fini();
-
     return 0;
 }

@@ -44,6 +44,5 @@ extern float rad;
 extern int floorpos;
 
 extern int posLevel;
-extern bool dirRead;
 #endif	/* VARIABLES_H */
 
