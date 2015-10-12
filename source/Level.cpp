@@ -7,6 +7,7 @@
 
 #include "Level.h"
 #include "Floor.h"
+#include "Background.h"
 
 Level::Level() {
 }
@@ -70,16 +71,24 @@ bool Level::Load(const char* path){
         
     }
     fclose(fp);
+    block=new Background();
+    block->SetTexture(bg_texture);
+    block->SetHeight(bg_texture->height);
+    block->SetWidth(bg_texture->width);
+    this->array.push_back(block);
+    
     return true;
 }
-bool Level::DrawAndHit(Player *player){
-    for(int i=0;i<(int)this->array.size();i++){
+bool Level::DrawAndHit(Player *player,bool left){
+    this->array[array.size()-1]->DrawAndHit(player,left);
+    for(int i=0;i<(int)this->array.size()-1;i++){
         if((this->array[i]->GetX()+this->array[i]->GetWidth() >= player->GetX()-PLAYER_X) && (this->array[i]->GetX() <= player->GetX()+(TOP_WIDTH-PLAYER_X))){
-            if(this->array[i]->DrawAndHit(player)){
+            if(this->array[i]->DrawAndHit(player,left)){
                 return true;
             }
         }
     }
+    
     return false;
     
 }

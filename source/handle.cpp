@@ -40,8 +40,44 @@ void handleMenu(int pos){
 }
 
 void handleGame(Level* level,Player* player){
+    int xplayer;
+    bool jump=false;
     sf2d_start_frame(GFX_TOP, GFX_LEFT);
+                    if(!player->IsJumping()){
+                        xplayer=PLAYER_X;
+                    } else {
+                        //Gravity stuff.
+                        jump=true;
+                        player->MoveUD(v_y+player->GetY());
+                        v_y += v_grav;
+                        if(player->GetY()>=posYplayer){
+                            player->SetJump(false);
+                            player->MoveUD(posYplayer);
+                            v_saut = -3.5;
+                            v_y = v_saut;
+                            rad=0.0f;
+                        }
+                    }
+                    player->SetOnCube(false);
+                    floorpos=TOP_HEIGHT;
+                    if(level->DrawAndHit(player,true)){
+                        launchgame=false;
+                        gameover=true;
+                    }
+                    if(!jump){
+                        sf2d_draw_texture(player_texture,PLAYER_X,player->GetY());
+                    } else {
+                        sf2d_draw_texture_rotate(player_texture,PLAYER_X+(player->GetHeight()/2),player->GetY(),rad);
+                    }
+    sf2d_end_frame();
+    sf2d_start_frame(GFX_TOP, GFX_RIGHT);
     
+                    player->SetOnCube(false);
+                    floorpos=TOP_HEIGHT;
+                    if(level->DrawAndHit(player,false)){
+                        launchgame=false;
+                        gameover=true;
+                    }
                     if(!player->IsJumping()){
                         sf2d_draw_texture(player_texture,PLAYER_X,player->GetY());
                     } else {
@@ -57,13 +93,6 @@ void handleGame(Level* level,Player* player){
                             rad=0.0f;
                         }
                     }
-                    player->SetOnCube(false);
-                    floorpos=TOP_HEIGHT;
-                    if(level->DrawAndHit(player)){
-                        launchgame=false;
-                        gameover=true;
-                    }
-    
     sf2d_end_frame();
     if(!player->IsOnCube())
         posYplayer=floorpos;

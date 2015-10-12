@@ -23,7 +23,7 @@ public:
     Level(const Level& orig);
     virtual ~Level();
 
-    bool DrawAndHit(Player*);
+    bool DrawAndHit(Player*,bool);
     bool Load(const char*);
     
     

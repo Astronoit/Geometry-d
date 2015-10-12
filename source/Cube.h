@@ -14,7 +14,7 @@ public:
     Cube();
     Cube(const Cube& orig);
     virtual ~Cube();
-    bool DrawAndHit(Player*);
+    bool DrawAndHit(Player*,bool);
 private:
 
 };

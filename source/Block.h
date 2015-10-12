@@ -18,7 +18,7 @@ public:
     Block(const Block& orig);
     virtual ~Block();
 
-    virtual bool DrawAndHit(Player*)=0;
+    virtual bool DrawAndHit(Player*,bool)=0;
     int GetX() const {
         return x;
     }

@@ -14,6 +14,7 @@
 #define PLAYER_WD 32
 #define TOP_WIDTH 400
 #define TOP_HEIGHT 240
+#define CONFIG_3D_SLIDERSTATE (*(float*)0x1FF81080)
 struct image
 {
   unsigned int 	 width;
@@ -22,7 +23,7 @@ struct image
   unsigned char	 pixel_data[];
 };
 
-extern const struct image spike_img, player_img,floor_img,cube_img,gameover_img;
+extern const struct image spike_img, player_img,floor_img,cube_img,gameover_img,bg_img;
 
 
 extern sf2d_texture *spike_texture;
@@ -30,6 +31,7 @@ extern sf2d_texture *player_texture;
 extern sf2d_texture *floor_texture;
 extern sf2d_texture *cube_texture;
 extern sf2d_texture *gameover_texture;
+extern sf2d_texture *bg_texture;
 
 extern int posYplayer;
 extern bool launchgame;

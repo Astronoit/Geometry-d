@@ -15,6 +15,8 @@ sf2d_texture *player_texture;
 sf2d_texture *floor_texture;     
 sf2d_texture *cube_texture;      
 sf2d_texture *gameover_texture;
+sf2d_texture *bg_texture;
+
 int posYplayer;
 bool launchgame;
 bool quit;
@@ -37,7 +39,7 @@ void initTexture(){
     floor_texture = sf2d_create_texture_mem_RGBA8(floor_img.pixel_data, floor_img.width, floor_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     cube_texture = sf2d_create_texture_mem_RGBA8(cube_img.pixel_data, cube_img.width, cube_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     gameover_texture = sf2d_create_texture_mem_RGBA8(gameover_img.pixel_data, gameover_img.width, gameover_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
-	
+    bg_texture = sf2d_create_texture_mem_RGBA8(bg_img.pixel_data, bg_img.width, bg_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
 }
 
 void freeTexture(){
@@ -100,6 +102,7 @@ int main()
     sf2d_init();
     csndInit();//start Audio Lib
     initTexture();
+    sf2d_set_3D(1);//Enable 3D
     sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
     Player *player = new Player(player_texture,PLAYER_X,PLAYER_Y,PLAYER_HG,PLAYER_WD);
     Level *level=new Level();
@@ -170,6 +173,9 @@ int main()
                 selectLevel=false;
                 speed=2.0;
                 sf2d_start_frame(GFX_TOP, GFX_LEFT);
+                    sf2d_draw_texture(gameover_texture,0,0);
+                sf2d_end_frame();
+                sf2d_start_frame(GFX_TOP, GFX_RIGHT);
                     sf2d_draw_texture(gameover_texture,0,0);
                 sf2d_end_frame();
                 player->MoveLR(PLAYER_X);

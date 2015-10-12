@@ -18,7 +18,7 @@ Spike::Spike(const Spike& orig) {
 Spike::~Spike() {
 }
 
-bool Spike::DrawAndHit(Player *player){
+bool Spike::DrawAndHit(Player *player,bool left){
     //Draw Spike
     sf2d_draw_texture(this->texture,this->x-player->GetX()+PLAYER_X,this->y);
 

@@ -14,7 +14,7 @@ public:
     Floor();
     Floor(const Floor& orig);
     virtual ~Floor();
-    bool DrawAndHit(Player*);
+    bool DrawAndHit(Player*,bool);
 
 private:
 

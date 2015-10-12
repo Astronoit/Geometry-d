@@ -16,7 +16,7 @@ Floor::Floor(const Floor& orig) {
 Floor::~Floor() {
 }
 
-bool Floor::DrawAndHit(Player* player){
+bool Floor::DrawAndHit(Player* player,bool left){
     sf2d_draw_texture(this->texture,this->x-player->GetX()+PLAYER_X,this->y);
     if(player->GetX()+player->GetWidth()>this->x && player->GetX()<this->x+floor_img.width &&
     (int)(player->GetY()+player->GetHeight())>=this->y && (int)(player->GetY()+player->GetHeight())<= this->y+floor_img.height ){
