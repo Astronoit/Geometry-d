@@ -8,6 +8,8 @@
 #ifndef BLOCK_H
 #define	BLOCK_H
 #include <sf2d.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "variables.h"
 class Player;
 
@@ -18,7 +20,7 @@ public:
     Block(const Block& orig);
     virtual ~Block();
 
-    virtual bool DrawAndHit(Player*,bool)=0;
+    virtual int DrawAndHit(Player*,bool)=0;
     int GetX() const {
         return x;
     }
@@ -58,7 +60,8 @@ public:
     void SetY(int y) {
         this->y = y;
     }
-
+    
+    char CollisionDetect(Player*);
 
 
 protected:
@@ -67,6 +70,16 @@ protected:
     int y;
     int height;
     int width;
+    void setFlag(char * c, int flag){
+        *c=((*c)|flag);
+    }
+    void unsetFlag(char * c, int flag){
+        *c=((*c)&(~flag));
+    }
+    bool isFlagSet(char c, int flag){
+        return c&flag;
+    }
+
 
 };
 

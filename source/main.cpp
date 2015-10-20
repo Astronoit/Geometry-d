@@ -16,7 +16,7 @@ sf2d_texture *floor_texture;
 sf2d_texture *cube_texture;      
 sf2d_texture *gameover_texture;
 sf2d_texture *bg_texture;
-
+sf2d_texture *finish_texture;
 int posYplayer;
 bool launchgame;
 bool quit;
@@ -40,6 +40,7 @@ void initTexture(){
     cube_texture = sf2d_create_texture_mem_RGBA8(cube_img.pixel_data, cube_img.width, cube_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     gameover_texture = sf2d_create_texture_mem_RGBA8(gameover_img.pixel_data, gameover_img.width, gameover_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     bg_texture = sf2d_create_texture_mem_RGBA8(bg_img.pixel_data, bg_img.width, bg_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
+    finish_texture = sf2d_create_texture_mem_RGBA8(finish_img.pixel_data, finish_img.width, finish_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
 }
 
 void freeTexture(){
@@ -48,6 +49,8 @@ void freeTexture(){
     sf2d_free_texture(floor_texture);
     sf2d_free_texture(cube_texture);
     sf2d_free_texture(gameover_texture);
+    sf2d_free_texture(bg_texture);
+    sf2d_free_texture(finish_texture);
 	
 }
 
@@ -88,7 +91,7 @@ void audio_stop(void){
 
 int main()
 {
-    float speed=2.0; 
+    float speed=5.0; 
     launchgame=false;
     quit=false;
     gameover=false;
@@ -122,6 +125,8 @@ int main()
             held = hidKeysHeld();
             if(oldHeld!=held){
                 if (held & KEY_START) {
+                    audio_stop();
+                    audio_stop();
                         break;
                 } else if (held & (KEY_L | KEY_R)) {
                         if(launchgame && !player->IsJumping()){
@@ -158,8 +163,7 @@ int main()
             oldHeld=held;
             if(launchgame){
                 handleGame(level,player);
-                speed+=((float)(player->GetX()%10))/500.0f;
-                player->MoveLR(player->GetX()+1*(speed/2));
+                player->MoveLR(player->GetX()+(speed/2));
             } else if(chooseLevel){
                 chooseLevel = handleLevelSelection(&posLevel,&nbFile,selectLevel,&launchgame,level);
             } else {
@@ -171,7 +175,7 @@ int main()
                 launchgame=false;
                 chooseLevel=false;
                 selectLevel=false;
-                speed=2.0;
+                speed=5.0;
                 sf2d_start_frame(GFX_TOP, GFX_LEFT);
                     sf2d_draw_texture(gameover_texture,0,0);
                 sf2d_end_frame();

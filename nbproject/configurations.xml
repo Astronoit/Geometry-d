@@ -8,6 +8,8 @@
         <in>Block.cpp</in>
         <in>Cube.cpp</in>
         <in>Cube.h</in>
+        <in>FinishLine.cpp</in>
+        <in>FinishLine.h</in>
         <in>Floor.cpp</in>
         <in>Floor.h</in>
         <in>Level.cpp</in>
@@ -142,6 +144,10 @@
       <item path="source/Cube.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="source/Cube.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/FinishLine.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/FinishLine.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="source/Floor.cpp" ex="false" tool="1" flavor2="0">
       </item>

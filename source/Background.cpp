@@ -18,7 +18,7 @@ Background::Background(const Background& orig) {
 Background::~Background() {
 }
 
-bool Background::DrawAndHit(Player* player,bool left){
+int Background::DrawAndHit(Player* player,bool left){
     if(left){
         if((this->x + texture->width) < (TOP_WIDTH)){
             sf2d_draw_texture(this->texture,(texture->width + this->x),0);    
@@ -37,5 +37,5 @@ bool Background::DrawAndHit(Player* player,bool left){
         sf2d_draw_texture(this->texture,this->x+(int)CONFIG_3D_SLIDERSTATE*20,0);
     }
     this->x-=2;
-    return false;
+    return 0;
 }

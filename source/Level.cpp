@@ -8,6 +8,7 @@
 #include "Level.h"
 #include "Floor.h"
 #include "Background.h"
+#include "FinishLine.h"
 
 Level::Level() {
 }
@@ -58,6 +59,11 @@ bool Level::Load(const char* path){
                     block->SetTexture(spike_texture);
                     block->SetHeight(spike_texture->height);
                     block->SetWidth(spike_texture->width);
+                } else if(!strcmp(buf,"Finish")) {
+                    block=new FinishLine();
+                    block->SetTexture(finish_texture);
+                    block->SetHeight(finish_texture->height);
+                    block->SetWidth(finish_texture->width);
                 }
             } else if(i==1){
                 block->SetX(atoi(buf));
@@ -79,16 +85,20 @@ bool Level::Load(const char* path){
     
     return true;
 }
-bool Level::DrawAndHit(Player *player,bool left){
+int Level::DrawAndHit(Player *player,bool left){
     this->array[array.size()-1]->DrawAndHit(player,left);
     for(int i=0;i<(int)this->array.size()-1;i++){
         if((this->array[i]->GetX()+this->array[i]->GetWidth() >= player->GetX()-PLAYER_X) && (this->array[i]->GetX() <= player->GetX()+(TOP_WIDTH-PLAYER_X))){
-            if(this->array[i]->DrawAndHit(player,left)){
-                return true;
+            static int state=0;
+            state = this->array[i]->DrawAndHit(player,left);
+            if(state==TOUCHED){
+                return TOUCHED;
+            } else if (state==FINISH){
+                return FINISH;
             }
         }
     }
     
-    return false;
+    return 0;
     
 }

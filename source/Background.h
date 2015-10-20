@@ -16,7 +16,7 @@ public:
     Background();
     Background(const Background& orig);
     virtual ~Background();
-    bool DrawAndHit(Player*,bool);
+    int DrawAndHit(Player*,bool);
 private:
 
 };

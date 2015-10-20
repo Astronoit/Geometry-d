@@ -38,7 +38,7 @@ public:
     void SetOnCube(bool OnCube) {
         this->OnCube = OnCube;
     }
-    bool DrawAndHit(Player*,bool){return false;};
+    int DrawAndHit(Player*,bool){return false;};
     
 
     

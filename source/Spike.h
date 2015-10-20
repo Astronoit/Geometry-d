@@ -16,7 +16,7 @@ public:
     Spike(sf2d_texture *text,int xPos,int yPos,int Height,int Width);
     Spike(const Spike& orig);
     virtual ~Spike();
-    bool DrawAndHit(Player*,bool);
+    int DrawAndHit(Player*,bool);
 private:
 
 };

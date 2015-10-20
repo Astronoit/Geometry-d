@@ -48,8 +48,9 @@ void handleGame(Level* level,Player* player){
                     } else {
                         //Gravity stuff.
                         jump=true;
-                        player->MoveUD(v_y+player->GetY());
                         v_y += v_grav;
+                        player->MoveUD(v_y+player->GetY());
+                        
                         if(player->GetY()>=posYplayer){
                             player->SetJump(false);
                             player->MoveUD(posYplayer);
@@ -60,9 +61,12 @@ void handleGame(Level* level,Player* player){
                     }
                     player->SetOnCube(false);
                     floorpos=TOP_HEIGHT;
-                    if(level->DrawAndHit(player,true)){
+                    int state = level->DrawAndHit(player,true);
+                    if(state==TOUCHED){
                         launchgame=false;
                         gameover=true;
+                    } else if (state==FINISH){
+                        //TO DO finish game aka gameover with an other screen
                     }
                     if(!jump){
                         sf2d_draw_texture(player_texture,PLAYER_X,player->GetY());
@@ -82,8 +86,10 @@ void handleGame(Level* level,Player* player){
                         sf2d_draw_texture(player_texture,PLAYER_X,player->GetY());
                     } else {
                         //Gravity stuff.
-                        player->MoveUD(v_y+player->GetY());
+                        jump=true;
                         v_y += v_grav;
+                        player->MoveUD(v_y+player->GetY());
+                        
                         sf2d_draw_texture_rotate(player_texture,PLAYER_X+(player->GetHeight()/2),player->GetY(),rad);
                         if(player->GetY()>=posYplayer){
                             player->SetJump(false);

@@ -16,16 +16,19 @@ Cube::Cube(const Cube& orig) {
 Cube::~Cube() {
 }
 
-bool Cube::DrawAndHit(Player* player,bool left){
+int Cube::DrawAndHit(Player* player,bool left){
     sf2d_draw_texture(this->texture,this->x-player->GetX()+PLAYER_X,this->y);
-    if(player->GetX()+player->GetWidth()>this->x && player->GetX()<this->x+cube_img.width &&
-    (int)(player->GetY()+player->GetHeight())>=this->y && (int)(player->GetY()+player->GetHeight())<= this->y+cube_img.height ){
+    char flag=0;
+    flag = CollisionDetect(player);
+    if(isFlagSet(flag,RIGHT)){
+        return TOUCHED;
+    }
+    if(isFlagSet(flag,TOP)){
         posYplayer=this->y-player->GetHeight();
-        player->SetJump(false);
         player->MoveUD(this->y-player->GetHeight());
         player->SetOnCube(true);
         v_y2=0;
-        return false;
+        return 0;
     }
-    return false;
+    return 0;
 }
