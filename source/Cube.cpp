@@ -24,8 +24,8 @@ int Cube::DrawAndHit(Player* player,bool left){
         return TOUCHED;
     }
     if(isFlagSet(flag,TOP)){
-        posYplayer=this->y-player->GetHeight();
-        player->MoveUD(this->y-player->GetHeight());
+        posYplayer=this->y-player->GetHeight()-1;
+        player->MoveUD(posYplayer);
         player->SetOnCube(true);
         v_y2=0;
         return 0;

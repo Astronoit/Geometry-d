@@ -31,7 +31,7 @@ struct image
   unsigned char	 pixel_data[];
 };
 
-extern const struct image spike_img, player_img,floor_img,cube_img,gameover_img,bg_img,finish_img;
+extern const struct image spike_img, player_img,floor_img,cube_img,gameover_img,bg_img,finish_img,win_img;
 
 
 extern sf2d_texture *spike_texture;
@@ -41,11 +41,13 @@ extern sf2d_texture *cube_texture;
 extern sf2d_texture *gameover_texture;
 extern sf2d_texture *bg_texture;
 extern sf2d_texture *finish_texture;
+extern sf2d_texture *win_texture;
 
 extern int posYplayer;
 extern bool launchgame;
 extern bool quit;
 extern bool gameover;
+extern bool win;
 extern double v_grav;
 extern double v_saut;
 

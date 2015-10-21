@@ -10,6 +10,7 @@
 #include "Level.h"
 #include "Spike.h"
 
+#define SPEED 3
 sf2d_texture *spike_texture;
 sf2d_texture *player_texture;    
 sf2d_texture *floor_texture;     
@@ -17,10 +18,12 @@ sf2d_texture *cube_texture;
 sf2d_texture *gameover_texture;
 sf2d_texture *bg_texture;
 sf2d_texture *finish_texture;
+sf2d_texture *win_texture;
 int posYplayer;
 bool launchgame;
 bool quit;
 bool gameover;
+bool win;
 double v_grav;
 double v_saut;
 
@@ -41,6 +44,7 @@ void initTexture(){
     gameover_texture = sf2d_create_texture_mem_RGBA8(gameover_img.pixel_data, gameover_img.width, gameover_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     bg_texture = sf2d_create_texture_mem_RGBA8(bg_img.pixel_data, bg_img.width, bg_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
     finish_texture = sf2d_create_texture_mem_RGBA8(finish_img.pixel_data, finish_img.width, finish_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
+    win_texture = sf2d_create_texture_mem_RGBA8(win_img.pixel_data, win_img.width, win_img.height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
 }
 
 void freeTexture(){
@@ -51,6 +55,7 @@ void freeTexture(){
     sf2d_free_texture(gameover_texture);
     sf2d_free_texture(bg_texture);
     sf2d_free_texture(finish_texture);
+    sf2d_free_texture(win_texture);
 	
 }
 
@@ -91,7 +96,7 @@ void audio_stop(void){
 
 int main()
 {
-    float speed=5.0; 
+    float speed=SPEED; 
     launchgame=false;
     quit=false;
     gameover=false;
@@ -128,7 +133,7 @@ int main()
                     audio_stop();
                     audio_stop();
                         break;
-                } else if (held & (KEY_L | KEY_R)) {
+                } else if ((held & (KEY_L | KEY_R)) || (held & KEY_TOUCH)) {
                         if(launchgame && !player->IsJumping()){
                         player->Jump();
                         }   
@@ -156,6 +161,7 @@ int main()
                         chooseLevel=true;
                         launchgame=false;
                         gameover=false;
+                        win=false;
                     }
                     
                 }
@@ -163,7 +169,7 @@ int main()
             oldHeld=held;
             if(launchgame){
                 handleGame(level,player);
-                player->MoveLR(player->GetX()+(speed/2));
+                player->MoveLR(player->GetX()+(speed));
             } else if(chooseLevel){
                 chooseLevel = handleLevelSelection(&posLevel,&nbFile,selectLevel,&launchgame,level);
             } else {
@@ -175,12 +181,31 @@ int main()
                 launchgame=false;
                 chooseLevel=false;
                 selectLevel=false;
-                speed=5.0;
+                speed=SPEED;
                 sf2d_start_frame(GFX_TOP, GFX_LEFT);
-                    sf2d_draw_texture(gameover_texture,0,0);
+                    sf2d_draw_rectangle(0,0,400,240,RGBA8(0xFF, 0x00, 0x00, 0xFF));
+                    sf2d_draw_texture(gameover_texture,70,110);
                 sf2d_end_frame();
                 sf2d_start_frame(GFX_TOP, GFX_RIGHT);
-                    sf2d_draw_texture(gameover_texture,0,0);
+                    sf2d_draw_rectangle(0,0,400,240,RGBA8(0xFF, 0x00, 0x00, 0xFF));
+                    sf2d_draw_texture(gameover_texture,70-CONFIG_3D_SLIDERSTATE*10,110);
+                sf2d_end_frame();
+                player->MoveLR(PLAYER_X);
+                player->MoveUD(PLAYER_Y);
+            }
+            if(win){
+                screenErased=false;
+                launchgame=false;
+                chooseLevel=false;
+                selectLevel=false;
+                speed=SPEED;
+                sf2d_start_frame(GFX_TOP, GFX_LEFT);
+                    sf2d_draw_rectangle(0,0,400,240,RGBA8(0xFF, 0xFF, 0x00, 0xFF));
+                    sf2d_draw_texture(win_texture,70,110);
+                sf2d_end_frame();
+                sf2d_start_frame(GFX_TOP, GFX_RIGHT);
+                    sf2d_draw_rectangle(0,0,400,240,RGBA8(0xFF, 0xFF, 0x00, 0xFF));
+                    sf2d_draw_texture(win_texture,70-CONFIG_3D_SLIDERSTATE*10,110);
                 sf2d_end_frame();
                 player->MoveLR(PLAYER_X);
                 player->MoveUD(PLAYER_Y);

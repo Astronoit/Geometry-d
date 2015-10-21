@@ -18,5 +18,10 @@ FinishLine::~FinishLine() {
 
 int FinishLine::DrawAndHit(Player* player,bool left){
     sf2d_draw_texture(this->texture,this->x-player->GetX()+PLAYER_X,this->y);
-    return false;
+    char flag=0;
+    flag = CollisionDetect(player);
+    if(flag!=0){
+        return FINISH;
+    }
+    return 0;
 }
